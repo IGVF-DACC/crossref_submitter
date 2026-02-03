@@ -9,7 +9,7 @@ import pytest
 import requests
 from requests.exceptions import ConnectionError
 
-from portal import IGVFPortalHelper
+from igvf_to_crossref.portal import IGVFPortalHelper
 
 
 @pytest.fixture

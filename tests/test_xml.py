@@ -8,7 +8,7 @@ from datetime import datetime
 
 import pytest
 
-from crossref_xml import XML
+from igvf_to_crossref.crossref_xml import XML
 
 
 def test_xml_initialization_with_minimal_data(minimal_portal_data):

@@ -9,7 +9,7 @@ from unittest.mock import Mock, patch, MagicMock
 import pytest
 from requests.exceptions import ConnectionError
 
-from crossref import CrossrefHelper
+from igvf_to_crossref.crossref import CrossrefHelper
 
 
 @pytest.fixture

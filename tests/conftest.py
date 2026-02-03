@@ -3,13 +3,7 @@
 
 """Pytest configuration and fixtures for testing."""
 
-import sys
-from pathlib import Path
-
 import pytest
-
-# Add the igvf-to-crossref directory to the Python path
-sys.path.insert(0, str(Path(__file__).parent.parent / "igvf-to-crossref"))
 
 
 @pytest.fixture
