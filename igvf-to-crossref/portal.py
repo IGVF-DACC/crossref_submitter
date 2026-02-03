@@ -4,9 +4,10 @@ from requests.exceptions import ConnectionError
 log = logging.getLogger()
 
 
-
 class IGVFPortalHelper():
 
+    SEARCH_URL = "search/?type=MeasurementSet&type=PredictionSet&type=ModelSet&type=AuxiliarySet&type=AnalysisSet&type=ConstructLibrarySet&status=released&doi!=*&field=accession&field=lab.title&field=release_timestamp&field=description&field=summary"
+    
     def __init__(self, server, portal_creds):
         self.server = server
         self.creds = portal_creds
@@ -29,8 +30,8 @@ class IGVFPortalHelper():
         ]
         return all(conditions)
 
-    def _make_search_url(self, type, limit: int = 1000):
-        return f"{self.server}/search/?type={type}&doi!=*&limit={limit}"
+    def _make_search_url(self, limit: int = 1000):
+        return f"{self.server}/{self.SEARCH_URL}&limit={limit}"
 
     def get(self, url, creds=None):
         log.warning('Getting {}'.format(url))
@@ -45,8 +46,8 @@ class IGVFPortalHelper():
             raise ValueError('Bad response code')
         return r
 
-    def search_datasets_without_doi(self, type, limit: int = 1000):
-        url = self._make_search_url(type, limit)
+    def search_datasets_without_doi(self, limit: int = 1000):
+        url = self._make_search_url(limit)
         return self.get(url)
     
     def patch(self, url, json, creds=None):

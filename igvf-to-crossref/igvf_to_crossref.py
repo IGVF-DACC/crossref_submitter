@@ -12,33 +12,12 @@ from xml.dom import minidom as md
 from constants import DOI_PREFIX
 from crossref_xml import XML
 from portal import IGVFPortalHelper
-from crossref import CrossRefHelper
+from crossref import CrossrefHelper
 
 
 def get_parser():
     parser = argparse.ArgumentParser(
         description="Generate CrossRef XML for DOI submission from IGVF portal JSON metadata"
-    )
-    parser.add_argument(
-        "-i",
-        "--infile",
-        required=True,
-        help="Input JSON file from IGVF portal query",
-        action="store",
-    )
-    parser.add_argument(
-        "-o",
-        "--outfile",
-        required=True,
-        help="Output XML file in CrossRef Schema 5.3.1",
-        action="store",
-    )
-    parser.add_argument(
-        "-p",
-        "--patchfile",
-        required=True,
-        help="Output TSV file to patch datasets with DOIs",
-        action="store",
     )
     parser.add_argument(
         "--portal-key",
@@ -55,7 +34,7 @@ def get_parser():
     parser.add_argument(
         "--crossref-login",
         default = os.environ.get("CROSSREF_LOGIN"),
-        help="CrossRef login",
+        help="CrossRef login for example: ojolanki@stanford.edu/igvf",
         action="store",
     )
     parser.add_argument(
@@ -85,13 +64,6 @@ def get_parser():
         help="Limit the number of datasets to search",
         action="store",
     )
-    parser.add_argument(
-        "--dataset-type",
-        required=True,
-        choices = ["AnalysisSet", "AuxiliarySet", "ConstructLibrarySet", "MeasurementSet", "ModelSet", "PredictionSet"],
-        help="Type of dataset to search",
-        action="store",
-    )
     return parser
 
 def main():
@@ -110,16 +82,16 @@ def main():
     portal_creds = (args.portal_key, args.portal_secret_key)
     crossref_creds = (args.crossref_login, args.crossref_password)
     portal_helper = IGVFPortalHelper(args.igvf_server, portal_creds)
-    crossref_helper = CrossRefHelper(args.crossref_server, crossref_creds)
+    crossref_helper = CrossrefHelper(args.crossref_server, crossref_creds)
     
     # get data from portal
-    response = portal_helper.search_datasets_without_doi(args.dataset_type, args.limit)
+    response = portal_helper.search_datasets_without_doi(args.limit)
     data = response.json()
     if not data.get('@graph') or len(data.get('@graph')) == 0:
-        print(f"No datasets found for type {args.dataset_type}", file=sys.stderr)
+        print(f"No datasets found", file=sys.stderr)
         sys.exit(1)
     
-    xml_builder = XML(data.get('@graph', []))
+    xml_builder = XML(data)
     doi_batch_elem = xml_builder.doi_batch_elem
     
     
@@ -134,7 +106,7 @@ def main():
     # Prepare patch data
     patch_data = []
     for item in xml_builder.datasets:
-        accession = item.get('record_id')
+        accession = item.get('accession')
         doi = f"{DOI_PREFIX}/{accession}"
         patch_data.append({
             'accession': accession,
