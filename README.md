@@ -4,15 +4,13 @@ Generate CrossRef XML for DOI submission from IGVF portal JSON metadata.
 
 ## Installation
 
-```bash
-pip install -r requirements-dev.txt
-```
+pip install .
 
 ## Testing
 
 Run the test suite with pytest:
-
 ```bash
+pip install -r requirements-dev.txt
 pytest
 ```
 
