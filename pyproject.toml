@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "igvf-crossref-submitter"
+version = "0.1.0"
+description = "Tool to generate and submit CrossRef DOI metadata for IGVF datasets"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+    {name = "Otto Jolanki", email = "ojolanki@stanford.edu"}
+]
+dependencies = [
+    "requests==2.32.5",
+]
+
+[project.scripts]
+igvf_to_crossref = "igvf_to_crossref.igvf_to_crossref:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["igvf_to_crossref*"]
+exclude = ["tests*"]
