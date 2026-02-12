@@ -65,7 +65,7 @@ def test_crossref_helper_initialization_with_different_values():
     assert helper.creds == ("different@stanford.edu/igvf", "different_password")
 
 
-@patch('crossref.requests.post')
+@patch('igvf_to_crossref.crossref.requests.post')
 def test_post_successful_submission(mock_post, crossref_helper, sample_doi_batch_elem):
     """Test successful POST request to CrossRef."""
     # Mock successful response
@@ -81,7 +81,7 @@ def test_post_successful_submission(mock_post, crossref_helper, sample_doi_batch
     assert mock_post.call_count == 1
 
 
-@patch('crossref.requests.post')
+@patch('igvf_to_crossref.crossref.requests.post')
 def test_post_calls_correct_url(mock_post, crossref_helper, sample_doi_batch_elem):
     """Test that POST is called with the correct server URL."""
     mock_response = Mock()
@@ -95,7 +95,7 @@ def test_post_calls_correct_url(mock_post, crossref_helper, sample_doi_batch_ele
     assert call_args[0][0] == "https://test.crossref.org/servlet/deposit"
 
 
-@patch('crossref.requests.post')
+@patch('igvf_to_crossref.crossref.requests.post')
 def test_post_sends_correct_form_data(mock_post, crossref_helper, sample_doi_batch_elem):
     """Test that POST sends the correct form data fields."""
     mock_response = Mock()
@@ -112,7 +112,7 @@ def test_post_sends_correct_form_data(mock_post, crossref_helper, sample_doi_bat
     assert data['login_passwd'] == 'test_password_123'
 
 
-@patch('crossref.requests.post')
+@patch('igvf_to_crossref.crossref.requests.post')
 def test_post_sends_xml_as_file(mock_post, crossref_helper, sample_doi_batch_elem):
     """Test that POST sends XML data as a file upload."""
     mock_response = Mock()
@@ -132,7 +132,7 @@ def test_post_sends_xml_as_file(mock_post, crossref_helper, sample_doi_batch_ele
     assert isinstance(xml_bytes, bytes)
 
 
-@patch('crossref.requests.post')
+@patch('igvf_to_crossref.crossref.requests.post')
 def test_post_converts_element_to_xml_bytes(mock_post, crossref_helper, sample_doi_batch_elem):
     """Test that ET.Element is properly converted to XML bytes."""
     mock_response = Mock()
@@ -151,7 +151,7 @@ def test_post_converts_element_to_xml_bytes(mock_post, crossref_helper, sample_d
     assert b'TEST_BATCH_123' in xml_bytes
 
 
-@patch('crossref.requests.post')
+@patch('igvf_to_crossref.crossref.requests.post')
 def test_post_xml_has_correct_encoding(mock_post, crossref_helper, sample_doi_batch_elem):
     """Test that XML is encoded as UTF-8."""
     mock_response = Mock()
@@ -168,7 +168,7 @@ def test_post_xml_has_correct_encoding(mock_post, crossref_helper, sample_doi_ba
     assert 'utf-8' in xml_string or 'UTF-8' in xml_string
 
 
-@patch('crossref.requests.post')
+@patch('igvf_to_crossref.crossref.requests.post')
 def test_post_raises_connection_error(mock_post, sample_doi_batch_elem):
     """Test that ConnectionError is raised when server is unreachable."""
     mock_post.side_effect = ConnectionError("Server unreachable")
@@ -182,7 +182,7 @@ def test_post_raises_connection_error(mock_post, sample_doi_batch_elem):
         helper.post(sample_doi_batch_elem)
 
 
-@patch('crossref.requests.post')
+@patch('igvf_to_crossref.crossref.requests.post')
 def test_post_raises_value_error_on_bad_status_code(mock_post, crossref_helper, sample_doi_batch_elem):
     """Test that ValueError is raised on non-200 status code."""
     mock_response = Mock()
@@ -194,7 +194,7 @@ def test_post_raises_value_error_on_bad_status_code(mock_post, crossref_helper, 
         crossref_helper.post(sample_doi_batch_elem)
 
 
-@patch('crossref.requests.post')
+@patch('igvf_to_crossref.crossref.requests.post')
 def test_post_raises_value_error_on_500_status(mock_post, crossref_helper, sample_doi_batch_elem):
     """Test that ValueError is raised on server error (500)."""
     mock_response = Mock()
@@ -206,7 +206,7 @@ def test_post_raises_value_error_on_500_status(mock_post, crossref_helper, sampl
         crossref_helper.post(sample_doi_batch_elem)
 
 
-@patch('crossref.requests.post')
+@patch('igvf_to_crossref.crossref.requests.post')
 def test_post_raises_value_error_on_404_status(mock_post, crossref_helper, sample_doi_batch_elem):
     """Test that ValueError is raised on not found (404)."""
     mock_response = Mock()
@@ -218,7 +218,7 @@ def test_post_raises_value_error_on_404_status(mock_post, crossref_helper, sampl
         crossref_helper.post(sample_doi_batch_elem)
 
 
-@patch('crossref.requests.post')
+@patch('igvf_to_crossref.crossref.requests.post')
 def test_post_returns_response_object(mock_post, crossref_helper, sample_doi_batch_elem):
     """Test that post method returns the response object."""
     mock_response = Mock()
@@ -232,8 +232,8 @@ def test_post_returns_response_object(mock_post, crossref_helper, sample_doi_bat
     assert result.text == "Success response"
 
 
-@patch('crossref.requests.post')
-@patch('crossref.log')
+@patch('igvf_to_crossref.crossref.requests.post')
+@patch('igvf_to_crossref.crossref.log')
 def test_post_logs_request(mock_log, mock_post, crossref_helper, sample_doi_batch_elem):
     """Test that post method logs the request."""
     mock_response = Mock()
@@ -249,8 +249,8 @@ def test_post_logs_request(mock_log, mock_post, crossref_helper, sample_doi_batc
     assert 'CrossRef' in log_string or 'test.crossref.org' in log_string
 
 
-@patch('crossref.requests.post')
-@patch('crossref.log')
+@patch('igvf_to_crossref.crossref.requests.post')
+@patch('igvf_to_crossref.crossref.log')
 def test_post_logs_success(mock_log, mock_post, crossref_helper, sample_doi_batch_elem):
     """Test that successful post logs success message."""
     mock_response = Mock()
@@ -265,8 +265,8 @@ def test_post_logs_success(mock_log, mock_post, crossref_helper, sample_doi_batc
     assert 'Success' in log_string or 'posted' in log_string.lower()
 
 
-@patch('crossref.requests.post')
-@patch('crossref.log')
+@patch('igvf_to_crossref.crossref.requests.post')
+@patch('igvf_to_crossref.crossref.log')
 def test_post_logs_error_on_bad_status(mock_log, mock_post, crossref_helper, sample_doi_batch_elem):
     """Test that bad status code is logged."""
     mock_response = Mock()
@@ -283,8 +283,8 @@ def test_post_logs_error_on_bad_status(mock_log, mock_post, crossref_helper, sam
     assert '400' in log_string or 'Status code not 200' in log_string
 
 
-@patch('crossref.requests.post')
-@patch('crossref.log')
+@patch('igvf_to_crossref.crossref.requests.post')
+@patch('igvf_to_crossref.crossref.log')
 def test_post_logs_connection_error(mock_log, mock_post, crossref_helper, sample_doi_batch_elem):
     """Test that connection errors are logged."""
     mock_post.side_effect = ConnectionError("Cannot reach server")
@@ -315,7 +315,7 @@ def test_post_with_complex_xml_structure(crossref_helper):
     doi_data = ET.SubElement(dataset, "doi_data")
     ET.SubElement(doi_data, "doi").text = "10.12345/TEST123"
     
-    with patch('crossref.requests.post') as mock_post:
+    with patch('igvf_to_crossref.crossref.requests.post') as mock_post:
         mock_response = Mock()
         mock_response.status_code = 200
         mock_post.return_value = mock_response

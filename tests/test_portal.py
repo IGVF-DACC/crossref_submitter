@@ -113,7 +113,7 @@ def test_zero_search_results_with_json_exception():
     assert IGVFPortalHelper._zero_search_results(mock_response) is False
 
 
-@patch('portal.requests.get')
+@patch('igvf_to_crossref.portal.requests.get')
 def test_get_success(mock_get, portal_helper):
     """Test successful GET request."""
     mock_response = Mock()
@@ -127,7 +127,7 @@ def test_get_success(mock_get, portal_helper):
     mock_get.assert_called_once_with(url, auth=portal_helper.creds)
 
 
-@patch('portal.requests.get')
+@patch('igvf_to_crossref.portal.requests.get')
 def test_get_with_custom_creds(mock_get, portal_helper):
     """Test GET request with custom credentials."""
     mock_response = Mock()
@@ -142,7 +142,7 @@ def test_get_with_custom_creds(mock_get, portal_helper):
     mock_get.assert_called_once_with(url, auth=custom_creds)
 
 
-@patch('portal.requests.get')
+@patch('igvf_to_crossref.portal.requests.get')
 def test_get_with_zero_search_results(mock_get, portal_helper):
     """Test GET request that returns zero search results."""
     mock_response = Mock()
@@ -160,7 +160,7 @@ def test_get_with_zero_search_results(mock_get, portal_helper):
     assert result == mock_response
 
 
-@patch('portal.requests.get')
+@patch('igvf_to_crossref.portal.requests.get')
 def test_get_raises_on_connection_error(mock_get, portal_helper):
     """Test GET request raises ConnectionError."""
     mock_get.side_effect = ConnectionError("Network error")
@@ -171,7 +171,7 @@ def test_get_raises_on_connection_error(mock_get, portal_helper):
         portal_helper.get(url)
 
 
-@patch('portal.requests.get')
+@patch('igvf_to_crossref.portal.requests.get')
 def test_get_raises_on_bad_status_code(mock_get, portal_helper):
     """Test GET request raises ValueError on bad status code."""
     mock_response = Mock()
@@ -185,7 +185,7 @@ def test_get_raises_on_bad_status_code(mock_get, portal_helper):
         portal_helper.get(url)
 
 
-@patch('portal.requests.get')
+@patch('igvf_to_crossref.portal.requests.get')
 def test_get_raises_on_404_not_zero_results(mock_get, portal_helper):
     """Test GET request raises ValueError on 404 that's not zero results."""
     mock_response = Mock()
@@ -200,7 +200,7 @@ def test_get_raises_on_404_not_zero_results(mock_get, portal_helper):
         portal_helper.get(url)
 
 
-@patch('portal.requests.patch')
+@patch('igvf_to_crossref.portal.requests.patch')
 def test_patch_success(mock_patch, portal_helper):
     """Test successful PATCH request."""
     mock_response = Mock()
@@ -221,7 +221,7 @@ def test_patch_success(mock_patch, portal_helper):
     )
 
 
-@patch('portal.requests.patch')
+@patch('igvf_to_crossref.portal.requests.patch')
 def test_patch_with_custom_creds(mock_patch, portal_helper):
     """Test PATCH request with custom credentials."""
     mock_response = Mock()
@@ -243,7 +243,7 @@ def test_patch_with_custom_creds(mock_patch, portal_helper):
     )
 
 
-@patch('portal.requests.patch')
+@patch('igvf_to_crossref.portal.requests.patch')
 def test_patch_raises_on_connection_error(mock_patch, portal_helper):
     """Test PATCH request raises ConnectionError."""
     mock_patch.side_effect = ConnectionError("Network error")
@@ -255,7 +255,7 @@ def test_patch_raises_on_connection_error(mock_patch, portal_helper):
         portal_helper.patch(url, json_data)
 
 
-@patch('portal.requests.patch')
+@patch('igvf_to_crossref.portal.requests.patch')
 def test_patch_raises_on_bad_status_code(mock_patch, portal_helper):
     """Test PATCH request raises ValueError on bad status code."""
     mock_response = Mock()
@@ -270,7 +270,7 @@ def test_patch_raises_on_bad_status_code(mock_patch, portal_helper):
         portal_helper.patch(url, json_data)
 
 
-@patch('portal.requests.patch')
+@patch('igvf_to_crossref.portal.requests.patch')
 def test_patch_raises_on_404(mock_patch, portal_helper):
     """Test PATCH request raises ValueError on 404."""
     mock_response = Mock()
@@ -285,7 +285,7 @@ def test_patch_raises_on_404(mock_patch, portal_helper):
         portal_helper.patch(url, json_data)
 
 
-@patch('portal.requests.patch')
+@patch('igvf_to_crossref.portal.requests.patch')
 def test_patch_with_complex_json(mock_patch, portal_helper):
     """Test PATCH request with complex JSON data."""
     mock_response = Mock()
@@ -371,7 +371,7 @@ def test_make_search_url_includes_all_required_fields(portal_helper):
         assert field in url, f"Missing required field: {field}"
 
 
-@patch('portal.requests.get')
+@patch('igvf_to_crossref.portal.requests.get')
 def test_search_datasets_without_doi_success(mock_get, portal_helper):
     """Test search_datasets_without_doi returns datasets without DOI."""
     mock_response = Mock()
@@ -398,7 +398,7 @@ def test_search_datasets_without_doi_success(mock_get, portal_helper):
     assert "status=released" in called_url
 
 
-@patch('portal.requests.get')
+@patch('igvf_to_crossref.portal.requests.get')
 def test_search_datasets_without_doi_with_custom_limit(mock_get, portal_helper):
     """Test search_datasets_without_doi with custom limit."""
     mock_response = Mock()
@@ -414,7 +414,7 @@ def test_search_datasets_without_doi_with_custom_limit(mock_get, portal_helper):
     assert "limit=25" in called_url
 
 
-@patch('portal.requests.get')
+@patch('igvf_to_crossref.portal.requests.get')
 def test_search_datasets_without_doi_raises_on_error(mock_get, portal_helper):
     """Test search_datasets_without_doi propagates errors from get method."""
     mock_response = Mock()

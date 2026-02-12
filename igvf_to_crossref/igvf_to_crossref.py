@@ -89,7 +89,7 @@ def main():
     data = response.json()
     if not data.get('@graph') or len(data.get('@graph')) == 0:
         print(f"No datasets found", file=sys.stderr)
-        sys.exit(1)
+        sys.exit(0)
     
     xml_builder = XML(data)
     doi_batch_elem = xml_builder.doi_batch_elem
