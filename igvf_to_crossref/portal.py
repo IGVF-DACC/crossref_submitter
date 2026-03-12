@@ -6,7 +6,7 @@ log = logging.getLogger()
 
 class IGVFPortalHelper():
 
-    SEARCH_URL = "search/?type=MeasurementSet&type=PredictionSet&type=ModelSet&type=AuxiliarySet&type=AnalysisSet&type=ConstructLibrarySet&status=released&doi!=*&field=accession&field=lab.title&field=release_timestamp&field=description&field=summary"
+    SEARCH_URL = "search/?type=PseudobulkSet&type=MeasurementSet&type=PredictionSet&type=ModelSet&type=AuxiliarySet&type=AnalysisSet&type=ConstructLibrarySet&status=released&doi!=*&field=accession&field=lab.title&field=release_timestamp&field=description&field=summary"
     
     def __init__(self, server, portal_creds):
         self.server = server

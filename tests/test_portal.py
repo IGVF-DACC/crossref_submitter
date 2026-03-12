@@ -330,6 +330,7 @@ def test_make_search_url_default_limit(portal_helper):
     url = portal_helper._make_search_url()
     
     assert portal_helper.server in url
+    assert "type=PseudobulkSet" in url
     assert "type=MeasurementSet" in url
     assert "type=PredictionSet" in url
     assert "type=ModelSet" in url
@@ -431,6 +432,7 @@ def test_search_url_constant_includes_all_types():
     search_url = IGVFPortalHelper.SEARCH_URL
     
     expected_types = [
+        "type=PseudobulkSet",
         "type=MeasurementSet",
         "type=PredictionSet",
         "type=ModelSet",
